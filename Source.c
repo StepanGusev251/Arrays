@@ -10,14 +10,13 @@
 #define N 50
 
 double* full_elements(double* ptr_array, int n); // заполнение массива
-double F1(double x); // функция из 8 лаб 6 варианту
+double F(double x); // функция из 8 лаб 6 варианту
 int put_elements(double* ptr_array, int n); //печать элементов массива
-double calc_elements(double* ptr_array, int n); //обработка элементов массива 11 лаб
+double* calc_elements(double* ptr_array, int n); //обработка элементов массива 11 лаб
 int find_element(double* ptr_array, int n, double element); // найти элемент в массиве
-int findMinMultipleIndex(double* arr, int n, int k); // ДЗ
-
-//функции для зад. 2
+int function(double* arr, int n, int k);
 double sum_elements(double* ptr_array, int begin, int end);
+int findDZ(double* arr, int n, double A);
 
 int main() // вариант 1 (9%27+1)
 {
@@ -26,141 +25,111 @@ int main() // вариант 1 (9%27+1)
 	double array[N];
 	int size;
 	int begin, end;
-	double element;
-	int i_in_arr; // для нахождения эл. в массиве
 	int choice;
-	double max;
+	double k;
+	double arr, A, a;
 
 	printf("Введите размер массива > ");
 	scanf("%d", &size);
 
 	double* ptr_array = &array;
 
-	if (full_elements(ptr_array, size) == ptr_array) {
-		puts("Массив array успешно заполнен значениями.\n");
-	};
+	full_elements(array, size);
+	put_elements(array, size);
 
-	if (put_elements(ptr_array, size)) {
-		puts("\nМассив array успешно выведен в консоль\n");
-	};
-	double sr = calc_elements(ptr_array, size);
-	if (sr) {
-		printf("В массиве array успешно найдено среднее между отрицательными числами %.4g\n", sr);
-	}
-	else printf("В массиве array успешно найдено среднее между отрицательными числами %.4g\n", sr);
-
-
-	printf("\nВыберите следующее действие:\n 1. Сумма элементов массива с начального (первое введённое число) по конечное значение (ввести 1)\n 2. Поиск числа в массиве и узнать его индекс (ввести 2)\n 3. Поиск порядкового номера минимального значения элементов, кратных k. ");
-
-	scanf("%d", &choice);
-	switch (choice)
-	{
-	case 1:
-		printf("\nСумма элементов массива с начального (первое введённое число) по конечное значение: ");
-		scanf("%d %d", &begin, &end);
-
-		printf("Сумма элементов c индекса %d по индекс %d: %.4g\n", begin, end, sum_elements(ptr_array, begin, end));
-		break;
-	case 2:
-		printf("\nВведите число, которое хотите найти в массиве и узнать его индекс: ");
-
-		scanf("%lf", &element);
-		ptr_array[5] = 5.; // для проверки работы массива, т к в массиве числа с большим кол-вом знаков после ,
-		i_in_arr = find_element(ptr_array, size, element);
-		if (i_in_arr == -1)
-		{
-			puts("Элемент не найден(");
-		}
-		else printf("\nЭлемент %.4g имеет индекс %d", element, i_in_arr);
-
-		break;
-
+	do {
 		
-	default: puts("Введено что-то не то");
-		break;
-	}
+		printf("\n1. Поменять знаки элементов на противоположные.\n2. Сумма элементов с первого введенного пользователем номера элемента по конечного введенного номера элемента\n3. Поиск элемента равного a (введенный пользователем)\n4. Поиск порядкового номера минимального значения элементов, кратных k.\n5. Поиск порядкового номера минимального значения элементов, больших заданного значения А.\n");
+		printf("\nВведите команду: \n");
+		scanf("%d", &choice);
 
-	return 0;
+		switch (choice) {
+		case 1:
+			calc_elements(ptr_array, size);
+			put_elements(array, size);
+			break;
+
+		case 2:
+			printf("Введите начао и конец:\n");
+			scanf("%d %d", &begin, &end);
+			sum_elements(array, begin, end);
+			printf("Результат %lf", sum_elements(array, begin, end));
+			
+			break;
+		case 3:
+			printf("\nВведите число, которое хотите найти в массиве и узнать его индекс: ");
+
+			scanf("%lf", &a);
+			ptr_array[5] = 3.; // для проверки работы массива, т к в массиве числа с большим кол-вом знаков после ,
+			int i_in_arr = find_element(ptr_array, size, a);
+			if (i_in_arr == -1)
+			{
+				puts("Элемент не найден");
+			}
+			else printf("\nЭлемент %.4g имеет индекс %d", a, i_in_arr);
+
+			break;
+			break;
+		case 4:
+			printf("Введите  значение k\n");
+			scanf("%f", &k);
+
+			arr = function(array, size, k);
+			printf("Номер элемента - %d", arr);
+			
+			break;
+		case 5:
+			printf("Введите  значение A\n");
+			scanf("%d ", &A);
+			printf("Номер элемента - %d", findDZ(array, size, A));
+			break;
+		case 0:
+			printf("Выход \n");
+			break;
+		default:
+			printf("Неверный выбор!\n");
+		}
+	} while (choice != 0);
 }
 
-double F1(double x)
-{ /*
-  Принимает занчение и по функции возвращает рез-т
-  */
+
+double F(double x)
+{ 
 	return pow(x, 3) - 4 * pow(x, 2) + 2;
 }
 
 double* full_elements(double* ptr_array, int n)
-{/*
- ptr_array - указатель на массив
- n - размер массива
- */
-	double a = 2.;
+{
+	double a = 1.;
 	int i = 0;
-	while (i < n)
-	{
-		a += 0.02;
-		ptr_array[i] = F1(a);
-		i++;
+	for (i = 0; i < n; i++) {
+		ptr_array[i] = F(a);
+		a += 0.1;
 	}
 	return ptr_array;
 } // заполнение массива
 
 int put_elements(double* ptr_array, int n)
-{/*
- ptr_array - указатель на массив
- n - размер массива
- */
+{
 	int i = 0;
 	while (i < n)
 	{
-		printf("Array[%d] = %.4f\n", i, (*ptr_array++)); // разадресация 
+		printf("Array[%d] = %.4f\n", i, (*ptr_array++));
 		i++;
 	}
 	return 1;
 }; // вывод массива
 
-double calc_elements(double* ptr_array, int n) // 6 вариант в ДЗ по 11 лаб. работ
+double* calc_elements(double* ptr_array, int n) // 6 вариант в ДЗ по 11 лаб. работ
 {
-	
-	int a[100];
-	int i;
-	int neg1 = -1, neg2 = -1;
-	int sum = 0, count = 0;
-
-	for (i = 0; i < n; i++) {
-		scanf("%d", &a[i]);
+	for (int i = 0; i < n; i++) {
+		ptr_array[i] = -ptr_array[i];
 	}
-
-	// Поиск двух отрицательных элементов в одном цикле
-	for (i = 0; i < n; i++) {
-		if (a[i] < 0) {
-			if (neg1 == -1) {
-				neg1 = i;      // Первый отрицательный
-			}
-			else {
-				neg2 = i;      // Второй отрицательный
-				break;         // Выходим из цикла
-			}
-		}
-	}
-
-	// Вычисление среднего
-
-	for (i = neg1 + 1; i < neg2; i++) {
-		sum += a[i];
-		count++;
-	}
-	return (float)sum / count;
+	return ptr_array;
 };
 
 double sum_elements(double* ptr_array, int begin, int end)
-{/*
- ptr_array - указатель на массив
- begin - индекс начального эл. массива
- end - индекс конечного эл. массива
- возвращает сумму элементов от begin до end
- */
+{
 
 	double result = 0.;
 
@@ -174,37 +143,48 @@ double sum_elements(double* ptr_array, int begin, int end)
 }
 
 int find_element(double* ptr_array, int n, double element)
-{/*
- ptr_array - указатель на массив
- n - размер массива
- element - значение, которое ищется в массиве
- возвращает индекс последнего найденного элемента в массиве = element
- */
-	int i_min = -1;
+{
+	int num_el = -1;
 
-	for (int i = 0; n > i; i++)
+
+	for (int i = 0; i<n; i++)
 	{
 		if (ptr_array[i] == element)
 		{
-			i_min = i;
+			num_el = i;
 		}
 	}
-	return i_min;
+	return num_el;
 }
 
-int findMinMultipleIndex(double* arr, int n, int k) {
-	if (k == 0) return -1; // Защита от деления на ноль
+int function(double* arr, int n, double k) {
+	if (n <= 0 || fabs(k) < 1e-12) return -1;
 
 	int minIndex = -1;
+	bool found = false;
 
 	for (int i = 0; i < n; i++) {
-		// Проверяем кратность (сравниваем остаток с машинным нулем)
-		if (fabs(fmod(arr[i], k)) < 1e-12) {
-			if (minIndex == -1 || arr[i] < arr[minIndex]) {
+		// Проверяем кратность через остаток от деления
+		// arr[i] кратно k, если остаток от деления близок к нулю
+		double remainder = fmod(arr[i], k);
+
+		// Учитываем погрешность вычислений с double
+		if (fabs(remainder) < 1e-9) {
+			if (!found || arr[i] < arr[minIndex]) {
 				minIndex = i;
+				found = true;
 			}
 		}
 	}
 
 	return minIndex;
+}
+int findDZ(double* arr, int n, double A) {
+	int idx = -1;
+	for (int i = 0; i < n; i++) {
+		if (arr[i] > A && (idx == -1 || arr[i] < arr[idx])) {
+			idx = i;
+		}
+	}
+	return idx;
 }
