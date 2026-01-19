@@ -61,7 +61,7 @@ int find_element(double* ptr_array, int n, double element)
         if (fabs(ptr_array[i] - element) < 1e-9)
         {
             num_el = i;
-            break; // Íàøëè ïåðâîå âõîæäåíèå - âûõîäèì
+            break; // ÐÐ°ÑˆÐ»Ð¸ Ð¿ÐµÑ€Ð²Ð¾Ðµ Ð²Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ - Ð²Ñ‹Ñ…Ð¾Ð´Ð¸Ð¼
         }
     }
     return num_el;
@@ -71,7 +71,7 @@ int function(double* arr, int n, double k) {
     if (n <= 0 || fabs(k) < 1e-12) return -1;
 
     int minIndex = -1;
-    int found = 0;  // Çàìåíÿåì bool íà int (0 = false, 1 = true)
+    int found = 0;  // Ð—Ð°Ð¼ÐµÐ½ÑÐµÐ¼ bool Ð½Ð° int (0 = false, 1 = true)
 
     for (int i = 0; i < n; i++) {
         double remainder = fmod(arr[i], k);
@@ -113,7 +113,7 @@ double* insert(double* ptr_arr, int size) {
 
     double* ptr_arr_n = (double*)realloc(ptr_arr, size_n * sizeof(double));
     if (ptr_arr_n == NULL) {
-        printf("Îøèáêà ïåðåâûäåëåíèÿ ïàìÿòè\n");
+        printf("ÐžÑˆÐ¸Ð±ÐºÐ° Ð¿ÐµÑ€ÐµÐ²Ñ‹Ð´ÐµÐ»ÐµÐ½Ð¸Ñ Ð¿Ð°Ð¼ÑÑ‚Ð¸\n");
         return ptr_arr;
     }
 
